@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas width="600" height="400"></canvas>
+
+
+  <script>
+    var pantalla = document.querySelector("canvas");
+    var pincel = pantalla.getContext("2d");
+    pincel.fillStyle = "lightgray";
+    pincel.fillRect(0, 0, 600, 400);
+    var radio = 10;
+    var xAleatoreo;
+    var yAleatoreo;
+    function dibujarCirculo(x, y, radio, color) {
+      pincel.fillStyle = color;
+      pincel.beginPath();
+      pincel.arc(x, y, radio, 0, 2 * Math.PI);
+      pincel.fill();
+    }
+
+    function limpiarPantalla() {
+      pincel.clearRect(0, 0, 600, 400);
+    }
+
+    var x = 20;
+    var sentido = 1;
+    function actualizarDiana() {
+      limpiarPantalla();
+      xAleatoreo = getRandomInt(30, 570);
+      yAleatoreo = getRandomInt(30, 370);
+      pincel.fillStyle = "lightgray";
+      pincel.fillRect(0, 0, 600, 400);
+      mostrarObjetivo(xAleatoreo, yAleatoreo);
+    }
+
+    function mostrarObjetivo(x, y) {
+      dibujarCirculo(x, y, radio + 20, "red");
+      dibujarCirculo(x, y, radio + 10, "white");
+      dibujarCirculo(x, y, 10, "red");
+    }
+
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+    setInterval(actualizarDiana, 1000);
+
+    function disparar(evento) {
+      var x = evento.pageX - pantalla.offsetLeft; //pos x
+      var y = evento.pageY - pantalla.offsetTop; //pos y
+      if ((x < xAleatoreo + radio) && (x > xAleatoreo - radio) && (y < yAleatoreo + radio) && (y > yAleatoreo - radio)) {
+        alert("Haz dado en el blanco");
+      }
+    }
+    pantalla.onclick = disparar;
+
+  </script>
+</body>
+
+</html>
